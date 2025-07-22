@@ -1,0 +1,9 @@
+[package]
+name = "mtk-jpeg"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+mtk-m4u = { version = "0.1.0", path = "../m4u" }
+syscalls = "0.6.18"
+thiserror = { version = "2.0.12", default-features = false }

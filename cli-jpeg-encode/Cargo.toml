@@ -1,0 +1,12 @@
+[package]
+name = "mtk-jpeg-encode"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.98"
+clap = { version = "4.5.41", features = ["derive"] }
+image = { version = "0.25.6", default-features = false, features = ["png"] }
+mtk-jpeg = { version = "0.1.0", path = "../jpeg" }
+mtk-m4u = { version = "0.1.0", path = "../m4u" }
+yuv = "0.8.6"
