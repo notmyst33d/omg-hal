@@ -1,7 +1,8 @@
 use syscalls::{Sysno, syscall};
 
 use crate::{
-    ioctl::{Cache, Module, MTK_M4U_T_CACHE_SYNC, MTK_M4U_T_DEALLOC_MVA}, Error, M4u, Port, SyncMode
+    Error, M4u, Port, SyncMode,
+    ioctl::{Cache, MTK_M4U_T_CACHE_SYNC, MTK_M4U_T_DEALLOC_MVA, Module},
 };
 
 pub struct Mva<'a, T: Port> {
@@ -28,7 +29,8 @@ impl<'a, T: Port> Drop for Mva<'a, T> {
                     mva_end: 0,
                     flags: 0,
                 }) as *const Module
-            ).unwrap();
+            )
+            .unwrap();
         }
     }
 }

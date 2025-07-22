@@ -17,9 +17,7 @@ struct Args {
 
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();
-    let image = ImageReader::open(args.input)?
-        .decode()?
-        .to_rgb8();
+    let image = ImageReader::open(args.input)?.decode()?.to_rgb8();
 
     let mut yuv_image = YuvBiPlanarImageMut::<u8>::alloc(
         image.width(),
@@ -48,17 +46,20 @@ fn main() -> anyhow::Result<()> {
     };
 
     loop {
-        let Err(e) = jpeg.encode(&config) else {
-            break;
-        };
-        if let EncodeError::OutputBufferTooSmall = e {
-            todo!();
-        } else {
-            return Err(e.into());
+        match jpeg.encode(&config) {
+            Ok(size) => {
+                fs::write(&args.output, &output[..size as usize])?;
+                break;
+            }
+            Err(e) => {
+                if let EncodeError::OutputBufferTooSmall = e {
+                    todo!();
+                } else {
+                    return Err(e.into());
+                }
+            }
         }
     }
-
-    fs::write(args.output, output)?;
 
     println!("Encoded JPEG successfully");
 
